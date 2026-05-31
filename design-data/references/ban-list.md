@@ -47,11 +47,11 @@ These patterns are FORBIDDEN in design output. They signal AI-generated work and
 
 /* ✅ ALTERNATIVE: Solid with hierarchy */
 .heading {
-  color: oklch(58.6% 0.238 286.7); /* Purple */
+  color: oklch(54.1% 0.247 293); /* Purple */
 }
 
 .subheading {
-  color: oklch(58.6% 0.238 286.7 / 0.7); /* 70% opacity */
+  color: oklch(54.1% 0.247 293 / 0.7); /* 70% opacity */
 }
 ```
 

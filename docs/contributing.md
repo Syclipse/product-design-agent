@@ -46,12 +46,11 @@ Thank you for your interest in contributing! This guide will help you extend and
 ### Prerequisites
 
 ```bash
-# Install Node.js 18+ (for plugins)
+# Node.js 18+ runs the plugins, validator, and hook
 node --version
-
-# Install development dependencies
-npm install
 ```
+
+No build step or dependencies — the plugins, standalone validator, and Claude Code hook use only Node.js built-ins.
 
 ### Local Testing Environment
 
@@ -63,8 +62,9 @@ export TEST_INSTALL_PATH=~/test-design-agent
 # 2. Install to test location
 ./install.sh --target custom --path $TEST_INSTALL_PATH
 
-# 3. Run tests
-npm test
+# 3. Verify: plugin syntax + validate a sample artifact
+node --check plugins/product-design.js
+node plugins/design-validator.mjs examples/dashboard-design.md
 
 # 4. Test with OpenCode
 # Update opencode config to point to test location
@@ -93,6 +93,12 @@ product-design--agent/
 │   └── *.mjs             [ES modules (explicit)]
 ├── design-data/
 │   └── references/        [Static reference data]
+├── commands/              [Claude Code slash commands]
+├── opencode/command/      [OpenCode slash commands]
+├── prompts/               [Portable goal-mode prompt]
+├── agents/                [Claude Code subagent]
+├── hooks/                 [Claude Code hooks]
+├── .claude-plugin/        [Claude Code plugin manifest]
 ├── docs/                  [Documentation (you are here)]
 └── examples/              [Test cases and demos]
 ```
@@ -211,7 +217,7 @@ If request involves:
 [Full audit with findings and recommendations]
 ```
 
-5. **Update documentation** in `docs/workflows.md`
+5. **Update documentation** in `agent/modules/workflows.md` (and add a slash command in `commands/` + `opencode/command/`)
 
 6. **Test**:
 
@@ -384,41 +390,17 @@ function validateReadability(designContent) {
 }
 ```
 
-4. **Add tests**:
+4. **Verify the detection** with quick checks (no test harness ships yet — run directly with `node`):
 
 ```javascript
-// tests/readability-gate.test.js
-describe('Readability Gate', () => {
-  test('passes with 16px body text', () => {
-    const design = `
-      Body text: 16px Inter
-      Contrast: 7:1
-      Max width: 65ch
-      Line height: 1.6
-    `;
-    const result = validateReadability(design);
-    expect(result.pass).toBe(true);
-  });
-  
-  test('fails with 14px body text', () => {
-    const design = `
-      Body text: 14px Inter
-    `;
-    const result = validateReadability(design);
-    expect(result.pass).toBe(false);
-    expect(result.issues[0].type).toBe('font-size');
-  });
-  
-  test('fails with low contrast', () => {
-    const design = `
-      Text: #888 on #ccc
-      Contrast: 2.8:1
-    `;
-    const result = validateReadability(design);
-    expect(result.pass).toBe(false);
-    expect(result.issues[0].type).toBe('contrast');
-  });
-});
+validateReadability('Body text: 16px Inter\nContrast: 7:1');
+// → { pass: true, issues: [] }
+
+validateReadability('Body text: 14px Inter');
+// → { pass: false, issues: [{ type: 'font-size', ... }] }
+
+validateReadability('Text: #888 on #ccc\nContrast: 2.8:1');
+// → { pass: false, issues: [{ type: 'contrast', ... }] }
 ```
 
 5. **Update documentation**:
@@ -514,66 +496,43 @@ function validateAnimationTiming(design) {
 
 ## Testing
 
-### Running Tests
+### Verifying Changes
+
+There is no `npm`/Jest harness yet. Verify with Node's built-in checks and the standalone validator:
 
 ```bash
-# Run all tests
-npm test
+# Syntax-check the plugins and hook
+node --check plugins/product-design.js
+node --check plugins/design-validator.mjs
+node --check hooks/inject-design-context.mjs
 
-# Run specific test suite
-npm test plugins/design-validator.test.js
+# Run all 5 gates against a design artifact
+node plugins/design-validator.mjs examples/dashboard-design.md
 
-# Run with coverage
-npm test -- --coverage
-
-# Watch mode during development
-npm test -- --watch
+# Keep the portable prompt within budget
+wc -m prompts/goal-mode.md   # must be <= 4000
 ```
 
 ### Writing Tests
 
-**Unit Tests** (individual functions):
+No test harness ships today. If you add one (e.g. Jest or `node --test`), `validateDesign` from `plugins/design-validator.mjs` is the exported entry point; tests would look like:
 
 ```javascript
-// tests/ban-list.test.js
-import { checkBanList } from '../plugins/product-design.js';
+// example.test.js — uses the real exported validateDesign()
+import fs from 'fs';
+import { validateDesign } from '../plugins/design-validator.mjs';
 
-describe('Ban List Validation', () => {
-  test('detects generic gradient', () => {
-    const design = 'background: linear-gradient(to right, #667eea, #764ba2)';
-    const result = checkBanList(design);
-    expect(result.violations).toContain('generic-gradient');
+describe('Gate validation', () => {
+  test('flags a generic, gate-failing artifact', async () => {
+    const artifact = '# Dashboard\nA clean and modern dashboard.';
+    const { passed } = await validateDesign(artifact);
+    expect(passed).toBe(false);
   });
-  
-  test('passes custom gradient', () => {
-    const design = 'background: linear-gradient(135deg, #501E60, #7C3F92)';
-    const result = checkBanList(design);
-    expect(result.violations).toHaveLength(0);
-  });
-});
-```
 
-**Integration Tests** (full workflows):
-
-```javascript
-// tests/integration/interface-design.test.js
-import { runWorkflow } from '../agent/workflow-runner.js';
-
-describe('Interface Design Workflow', () => {
-  test('completes dashboard design', async () => {
-    const request = 'Design a dashboard for API monitoring';
-    const result = await runWorkflow(request);
-    
-    expect(result.intent).toBeDefined();
-    expect(result.intent.who).toBeTruthy();
-    expect(result.intent.what).toBeTruthy();
-    expect(result.intent.feel).toBeTruthy();
-    
-    expect(result.domain.concepts.length).toBeGreaterThanOrEqual(5);
-    expect(result.domain.colors.length).toBeGreaterThanOrEqual(5);
-    expect(result.domain.signature).toBeTruthy();
-    
-    expect(result.gates.allPassed).toBe(true);
+  test('passes a complete, intent-driven artifact', async () => {
+    const artifact = fs.readFileSync('examples/dashboard-design.md', 'utf8');
+    const { passed } = await validateDesign(artifact);
+    expect(passed).toBe(true);
   });
 });
 ```
@@ -594,7 +553,7 @@ When adding features, update:
 
 1. **README.md**: If it changes user-facing behavior
 2. **docs/architecture.md**: If it changes internal structure
-3. **docs/workflows.md**: If adding/changing workflows
+3. **agent/modules/workflows.md**: If adding/changing workflows
 4. **docs/installation.md**: If it affects installation
 5. **CHANGELOG.md**: Always (see versioning section)
 
@@ -643,7 +602,7 @@ We use [Semantic Versioning](https://semver.org/):
 Before submitting PR:
 
 - [ ] Code follows existing style
-- [ ] All tests pass: `npm test`
+- [ ] Plugins/hook syntax-check (`node --check`) and the validator runs on a sample artifact
 - [ ] New features have tests
 - [ ] Documentation updated
 - [ ] CHANGELOG.md updated

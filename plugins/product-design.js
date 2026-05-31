@@ -241,6 +241,42 @@ export default async function ProductDesignPlugin({ directory, client }) {
     // QA (5 terms)
     qa: [
       'qa', 'quality assurance', 'design qa', 'visual qa', 'regression testing'
+    ],
+
+    // AI Mentor (8 terms)
+    mentor: [
+      'mentor', 'idea to concept', 'product concept', 'is this a good idea',
+      'what should i build', 'concept brief', 'riskiest assumption', 'lean canvas'
+    ],
+
+    // UX Flows (10 terms)
+    uxFlows: [
+      'user flow', 'user flows', 'user journey', 'journey map', 'task flow',
+      'sitemap', 'product structure', 'flow diagram', 'happy path', 'flowchart'
+    ],
+
+    // UX Audit (6 terms)
+    uxAudit: [
+      'ux audit', 'usability review', 'usability audit', 'nielsen',
+      'usability heuristics', 'heuristic walkthrough'
+    ],
+
+    // Design Converter (7 terms)
+    designConverter: [
+      'convert this', 'turn this into ui', 'sketch to ui', 'screenshot to ui',
+      'wireframe to ui', 'design converter', 'image to ui'
+    ],
+
+    // Figma Export (6 terms)
+    figmaExport: [
+      'export to figma', 'push to figma', 'build in figma', 'create in figma',
+      'figma export', 'design to figma'
+    ],
+
+    // Portfolio (6 terms)
+    portfolio: [
+      'case study', 'case studies', 'portfolio', 'design portfolio',
+      'write up this project', 'project writeup'
     ]
   };
 
@@ -302,7 +338,9 @@ export default async function ProductDesignPlugin({ directory, client }) {
       uxCopy: ['ux-copy'],
       productStrategy: ['product-brainstorming'],
       workflows: ['design-critique', 'design-handoff'],
-      interfaceTypes: ['interface-design', 'ui-ux-pro-max']
+      interfaceTypes: ['interface-design', 'ui-ux-pro-max'],
+      uxAudit: ['accessibility-audit', 'design-critique'],
+      figmaExport: ['figma-generate-design']
     };
     
     // Add skills for all matched domains
@@ -384,7 +422,49 @@ export default async function ProductDesignPlugin({ directory, client }) {
 - Avoid generic defaults: "clean and modern" is meaningless
 - Self-critique mandate: catch defaults before showing to user
 - State completeness: default, hover, active, focus, disabled, loading, error, empty
-- Systemic application: every token must reinforce the design intent`
+- Systemic application: every token must reinforce the design intent`,
+
+      mentor: `
+**AI Mentor Mode**:
+- Mentor by asking, not answering — surface assumptions first
+- Reframe the idea as How-Might-We questions; problem before solution
+- Write the Job-To-Be-Done; identify and test the riskiest assumption
+- Diverge to 5+ distinct concepts, then converge by impact × feasibility`,
+
+      uxFlows: `
+**UX Flows Mode**:
+- Define the happy path first, then error and edge branches
+- Choose the artifact: task flow, user flow, or journey map
+- IA depth ≤ 3; label sections in the user's domain language
+- For journeys, map stages → actions → thoughts → emotions → opportunities`,
+
+      uxAudit: `
+**UX Audit Mode**:
+- Evaluate against Nielsen's 10 heuristics + WCAG 2.1 AA
+- Measure contrast — never estimate
+- Severity = frequency × severity (Critical/Major/Minor)
+- Every finding needs a location, the heuristic/criterion, and a concrete fix`,
+
+      designConverter: `
+**Design Converter Mode**:
+- Reverse-engineering does NOT skip the gates
+- Infer intent + domain; don't copy the screenshot's arbitrary palette
+- Map observed values to tokens (don't hardcode); complete all 8 states
+- List every assumption you made`,
+
+      figmaExport: `
+**Figma Export Mode**:
+- Load the figma-generate-design / figma-generate-library skill FIRST
+- Export via variables/styles, not hardcoded values
+- Keep brand fonts (Inter + Fragment Mono) and two-tone plum/violet
+- Re-run validation tests on the exported result`,
+
+      portfolio: `
+**Portfolio Builder Mode**:
+- Lead with the problem and the decisions, not screenshots
+- Use CRP-PDSI: Context, Role, Problem, Process, Decisions, Solution, Impact
+- Honest role attribution; never invent metrics
+- Pair every number with the mechanism behind it`
     };
     
     return guidanceMap[intent.mode] || '';

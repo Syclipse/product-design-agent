@@ -94,13 +94,30 @@
 
 ---
 
-## Primary Brand Color
+## Brand Colors (Two-Tone)
 
-### Purple #7C3AED
+The brand uses two purples with distinct roles — plum is **identity**, violet is **interaction**. Don't mix them up.
+
+| Role | Color | Hex | OKLCH | Use for |
+|------|-------|-----|-------|---------|
+| **Primary brand** | Deep Plum | `#501E60` | `oklch(34.1% 0.119 317)` | Brand identity, brand moments, primary surfaces/headers |
+| **Interactive accent** | Violet | `#7C3AED` | `oklch(54.1% 0.247 293)` | CTAs, active states, focus, links, selected states |
+
+Reserve a single accent — don't dilute focus with multiple accent colors.
+
+### Deep Plum #501E60 (Primary Brand)
+
+**Hex**: `#501E60`
+**RGB**: `rgb(80, 30, 96)`
+**OKLCH**: `oklch(34.1% 0.119 317)`
+
+**Usage**: Brand identity, brand moments, primary surfaces, section headers. For text on plum, use white (verify ≥ 4.5:1).
+
+### Violet #7C3AED (Interactive Accent)
 
 **Hex**: `#7C3AED`  
-**RGB**: `rgb(124, 62, 237)`  
-**OKLCH**: `oklch(58.6% 0.238 286.7)`
+**RGB**: `rgb(124, 58, 237)`  
+**OKLCH**: `oklch(54.1% 0.247 293)`
 
 **Usage**:
 - Primary CTAs
@@ -113,15 +130,19 @@
 
 ```css
 :root {
-  /* Base */
-  --purple-base: oklch(58.6% 0.238 286.7);
+  /* Two-tone brand */
+  --brand: oklch(34.1% 0.119 317);   /* Deep Plum #501E60 - primary brand */
+  --accent: oklch(54.1% 0.247 293);  /* Violet #7C3AED - interactive accent */
+
+  /* Base (violet accent scale) */
+  --purple-base: oklch(54.1% 0.247 293);
   
   /* Lighter (for backgrounds, hover states) */
   --purple-100: oklch(95% 0.05 286.7);  /* Very light */
   --purple-200: oklch(90% 0.08 286.7);  /* Light */
   --purple-300: oklch(80% 0.12 286.7);  /* Soft */
   --purple-400: oklch(70% 0.18 286.7);  /* Medium light */
-  --purple-500: oklch(58.6% 0.238 286.7); /* Base */
+  --purple-500: oklch(54.1% 0.247 293); /* Base */
   
   /* Darker (for text, emphasis) */
   --purple-600: oklch(50% 0.22 286.7);  /* Medium dark */
@@ -135,7 +156,11 @@
 
 ```css
 :root {
-  /* Primary */
+  /* Brand vs. interactive accent */
+  --color-brand: var(--brand);          /* Deep plum - identity */
+  --color-accent: var(--accent);        /* Violet - interaction */
+
+  /* Primary (interactive) */
   --color-primary: var(--purple-500);
   --color-primary-hover: var(--purple-600);
   --color-primary-active: var(--purple-700);
@@ -304,7 +329,7 @@ function validateBrandFonts(css) {
 
 - [ ] Inter loaded for headings, body, UI
 - [ ] Fragment Mono loaded for code, data labels
-- [ ] Purple #7C3AED used for primary brand color
+- [ ] Deep plum #501E60 = primary brand; violet #7C3AED = interactive accent
 - [ ] OKLCH shade scale defined (100-900)
 - [ ] Typography scale applied (display, h1-h3, body, code)
 - [ ] Font weights consistent (400/500/600/700 for Inter, 400/500 for Fragment Mono)

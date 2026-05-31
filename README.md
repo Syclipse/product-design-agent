@@ -4,13 +4,16 @@ A systematic, evidence-based product design agent for AI assistants (Claude, Ope
 
 ## Features
 
-- **8 Specialized Workflows**: User research, design systems, interface design, product strategy, design critique, handoff specs, accessibility audits, and Figma integration
+- **14 Specialized Workflows**: User research, design systems, interface design, product strategy, design critique, handoff specs, accessibility audits, Figma integration — plus AI mentor, UX flows, UX audit, design converter, Figma export, and portfolio builder
 - **5 Quality Gates**: Mandatory validation for intent declaration, domain exploration, validation tests, variance tracking, and ban list enforcement
 - **Evidence-Based**: Every recommendation traces to sources with confidence levels
 - **Craft-Focused**: Intent-first design with self-critique mandate to avoid generic AI defaults
 - **WCAG 2.1 AA**: Accessibility built in as core requirement, not afterthought
 - **Variance Tracking**: Prevents repetitive design patterns across outputs
 - **DesignPrompts.dev Integration**: 350KB reference library of styles, colors, and typography
+- **12 Slash Commands**: `/mentor`, `/ux-flows`, `/ux-audit`, `/design-converter`, `/figma-export`, `/portfolio`, plus `/research`, `/design-system`, `/interface`, `/critique`, `/handoff`, `/strategy` (Claude Code + OpenCode)
+- **Portable Goal-Mode Prompt**: a self-contained ≤4000-char prompt for any single instruction field
+- **Claude Code Plugin**: `.claude-plugin/plugin.json` packaging with commands and a subagent
 
 ## What This Agent Does
 
@@ -24,6 +27,12 @@ The Product Design Partner helps with:
 - **Design Handoff**: Complete developer specs with layout, tokens, states, edge cases
 - **UX Copy**: Microcopy, error messages, empty states, CTAs
 - **Accessibility**: WCAG audits and remediation guidance
+- **AI Mentor**: Guiding an idea to a defensible product concept
+- **UX Flows**: User journeys, task flows, and information architecture
+- **UX Audit**: Combined usability (Nielsen) + accessibility (WCAG) review
+- **Design Converter**: Turning sketches or screenshots into UI
+- **Figma Export**: Pushing designs and design systems into Figma
+- **Portfolio Builder**: Generating case studies from project artifacts
 
 ## Architecture
 
@@ -34,7 +43,7 @@ product-design--agent/
 │   └── modules/                       [5 modular subagents]
 │       ├── INDEX.md                   [System map]
 │       ├── quality-gates.md           [5 gates + brand identity]
-│       ├── workflows.md               [8 complete workflows]
+│       ├── workflows.md               [14 complete workflows]
 │       ├── standards-and-anti-patterns.md
 │       └── frameworks-and-artifacts.md
 │
@@ -44,14 +53,24 @@ product-design--agent/
 │   ├── design-migrator.js             [Legacy data migration]
 │   └── csv-converter.mjs              [DesignPrompts.dev converter]
 │
-└── design-data/
-    └── references/                    [350KB reference data]
-        ├── ban-list.md                [284 lines - forbidden patterns]
-        ├── brand-identity.md          [311 lines - brand guidelines]
-        ├── premium-patterns.md        [326 lines - architecture patterns]
-        ├── designprompts-styles.json  [191KB - style reference]
-        ├── designprompts-colors.json  [91KB - color palettes]
-        └── designprompts-typography.json [68KB - typography systems]
+├── design-data/
+│   └── references/                    [reference data]
+│       ├── ban-list.md                [forbidden patterns]
+│       ├── brand-identity.md          [brand guidelines + two-tone color]
+│       ├── premium-patterns.md        [architecture patterns]
+│       ├── mentorship-frameworks.md   [AI mentor: idea → concept]
+│       ├── ux-flow-patterns.md        [UX flows & IA]
+│       ├── ux-heuristics.md           [UX audit: Nielsen + WCAG]
+│       ├── design-converter-guide.md  [sketch/screenshot → UI]
+│       ├── portfolio-frameworks.md    [portfolio case studies]
+│       └── designprompts-*.json       [350KB - styles, colors, typography]
+│
+├── commands/                          [12 Claude Code slash commands]
+├── opencode/command/                  [12 OpenCode slash commands]
+├── prompts/                           [portable goal-mode prompt]
+├── agents/                            [Claude Code subagent]
+├── hooks/                             [UserPromptSubmit intent nudge]
+└── .claude-plugin/                    [Claude Code plugin manifest]
 ```
 
 ## Installation
@@ -141,6 +160,31 @@ The install script will:
    node plugins/design-validator.mjs your-design-artifact.md
    ```
 
+## Slash Commands
+
+Installed as a Claude Code plugin (`/command`) or an OpenCode command. Six new capabilities plus six wrapping the existing workflows:
+
+| Command | Does |
+|---------|------|
+| `/mentor` | Guide an idea → product concept |
+| `/ux-flows` | User journeys, task flows, information architecture |
+| `/ux-audit` | Usability (Nielsen) + accessibility (WCAG 2.1 AA) |
+| `/design-converter` | Sketch / screenshot → UI |
+| `/figma-export` | Push a design or system into Figma (Figma MCP) |
+| `/portfolio` | Generate a case study from project artifacts |
+| `/research` | Plan or synthesize user research |
+| `/design-system` | Audit / document a design system + tokens |
+| `/interface` | Design an interface (all 5 gates enforced) |
+| `/critique` | Structured design critique |
+| `/handoff` | Developer handoff spec |
+| `/strategy` | Problem framing + ideation |
+
+Claude Code commands live in `commands/`; OpenCode equivalents in `opencode/command/`.
+
+## Goal-Mode Prompt
+
+`prompts/goal-mode.md` is a portable, self-contained **≤4000-character** system prompt that distills the whole agent into a single field — paste it into a Claude Project, an agent "goal" field, or any LLM's system prompt. See `prompts/README.md` for usage.
+
 ## Usage Examples
 
 ### User Research
@@ -186,7 +230,7 @@ node plugins/design-validator.mjs design-output.md
 
 - [Installation Guide](docs/installation.md) - Detailed installation for all environments
 - [Architecture Overview](docs/architecture.md) - System design and module dependencies
-- [Workflow Reference](docs/workflows.md) - All 8 workflows with examples
+- [Workflow Reference](agent/modules/workflows.md) - All 14 workflows
 - [Contributing](docs/contributing.md) - How to extend and improve the agent
 
 ## Brand Identity
@@ -194,7 +238,7 @@ node plugins/design-validator.mjs design-output.md
 The agent uses its own design system as a demonstration:
 
 - **Fonts**: Inter (headings/body), Fragment Mono (code/labels/data)
-- **Color**: Purple #501E60 (primary accent)
+- **Color**: Deep plum #501E60 (primary brand) + violet #7C3AED (interactive accent)
 - **Architecture**: Double-Bezel, Button-in-Button, Whisper-Quiet Elevation, Custom Motion
 
 See `design-data/references/brand-identity.md` for complete guidelines.
@@ -208,10 +252,9 @@ See `design-data/references/brand-identity.md` for complete guidelines.
 **Standalone Validation** (Other LLMs): Use design-validator.mjs to validate design artifacts manually. Results are saved to validation-history/ for review.
 
 **DesignPrompts.dev Integration**: The agent includes 350KB of curated reference data from DesignPrompts.dev, covering:
-- 50+ visual styles
+- 83 visual styles
 - 161 color palettes
-- 57 font pairings
-- 99 UX guidelines
+- 72 font pairings
 
 ## Requirements
 
@@ -237,6 +280,14 @@ Key areas for contribution:
 - Translations for international teams
 
 ## Changelog
+
+### v1.1.0 (2026-05-31)
+- 6 new capabilities: AI mentor, UX flows, UX audit, design converter, Figma export, portfolio builder
+- 12 slash commands for Claude Code (`commands/`) and OpenCode (`opencode/command/`)
+- Claude Code plugin packaging (`.claude-plugin/plugin.json`) + CC subagent
+- Portable goal-mode prompt (`prompts/goal-mode.md`, ≤4000 chars)
+- 5 new reference files (mentorship, UX flows, UX heuristics, design converter, portfolio)
+- Two-tone brand: deep plum #501E60 (brand) + violet #7C3AED (accent); corrected OKLCH values
 
 ### v1.0.0 (2026-05-31)
 - Initial release

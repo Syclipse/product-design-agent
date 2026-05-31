@@ -55,17 +55,23 @@ get_paths() {
             AGENT_DIR="$HOME/.config/opencode/agents"
             PLUGINS_DIR="$HOME/.config/opencode/plugins"
             DATA_DIR="$HOME/.config/opencode/design-data"
+            COMMAND_DIR="$HOME/.config/opencode/command"
+            PROMPTS_DIR="$HOME/.config/opencode/prompts"
             ;;
         claude)
             AGENT_DIR="$HOME/Library/Application Support/Claude/agents"
             PLUGINS_DIR="$HOME/Library/Application Support/Claude/plugins"
             DATA_DIR="$HOME/Library/Application Support/Claude/design-data"
+            COMMAND_DIR="$HOME/Library/Application Support/Claude/commands"
+            PROMPTS_DIR="$HOME/Library/Application Support/Claude/prompts"
             ;;
         *)
             if [ -n "$CUSTOM_PATH" ]; then
                 AGENT_DIR="$CUSTOM_PATH/agents"
                 PLUGINS_DIR="$CUSTOM_PATH/plugins"
                 DATA_DIR="$CUSTOM_PATH/design-data"
+                COMMAND_DIR="$CUSTOM_PATH/commands"
+                PROMPTS_DIR="$CUSTOM_PATH/prompts"
             else
                 print_error "No installation path provided"
                 exit 1
@@ -79,6 +85,8 @@ create_directories() {
     print_info "Creating directories..."
     mkdir -p "$AGENT_DIR/product-design-partner/modules"
     mkdir -p "$PLUGINS_DIR"
+    mkdir -p "$COMMAND_DIR"
+    mkdir -p "$PROMPTS_DIR"
     mkdir -p "$DATA_DIR/references"
     mkdir -p "$DATA_DIR/projects"
     mkdir -p "$DATA_DIR/components"
@@ -100,6 +108,24 @@ copy_plugin_files() {
     print_info "Copying plugin files..."
     cp plugins/*.js plugins/*.mjs "$PLUGINS_DIR/" 2>/dev/null || true
     print_success "Plugin files copied"
+}
+
+# Copy slash commands (OpenCode format for opencode; Claude Code format otherwise)
+copy_commands() {
+    print_info "Copying slash commands..."
+    if [ "$TARGET" == "opencode" ] && [ -d "opencode/command" ]; then
+        cp opencode/command/*.md "$COMMAND_DIR/" 2>/dev/null || true
+    elif [ -d "commands" ]; then
+        cp commands/*.md "$COMMAND_DIR/" 2>/dev/null || true
+    fi
+    print_success "Slash commands copied"
+}
+
+# Copy the portable goal-mode prompt
+copy_prompts() {
+    print_info "Copying goal-mode prompt..."
+    cp prompts/*.md "$PROMPTS_DIR/" 2>/dev/null || true
+    print_success "Goal-mode prompt copied"
 }
 
 # Copy reference data
@@ -246,6 +272,8 @@ main() {
     print_info "Installation paths:"
     print_info "  Agent: $AGENT_DIR"
     print_info "  Plugins: $PLUGINS_DIR"
+    print_info "  Commands: $COMMAND_DIR"
+    print_info "  Prompts: $PROMPTS_DIR"
     print_info "  Data: $DATA_DIR"
     echo ""
     
@@ -261,6 +289,8 @@ main() {
     create_directories
     copy_agent_files
     copy_plugin_files
+    copy_commands
+    copy_prompts
     copy_reference_data
     create_gitkeep_files
     
