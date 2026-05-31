@@ -1,0 +1,39 @@
+# Runtime data - these directories exist for user's generated content
+design-data/projects/*
+!design-data/projects/.gitkeep
+
+design-data/components/*
+!design-data/components/.gitkeep
+
+design-data/tokens/*
+!design-data/tokens/.gitkeep
+
+design-data/validation-history/*
+!design-data/validation-history/.gitkeep
+
+design-data/variance-history.json
+
+# Node modules if anyone runs the plugins locally
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.local
+.env.*.local

@@ -1,0 +1,223 @@
+# Product Design Partner - Complete System Map
+
+## Architecture Overview
+
+The Product Design Partner agent is a modular design system with strict quality enforcement. It consists of:
+
+- **Core Agent** (~200 lines): Identity, workflow router, quick references
+- **5 Modules** (<300 lines each): Detailed specifications, workflows, standards, frameworks
+- **4 Plugins**: Dynamic validation, variance tracking, data migration, CSV conversion
+- **Reference Data**: Ban lists, brand guidelines, premium patterns, design prompt libraries
+
+**Flow**: User request → Core agent routes → Loads relevant modules → Follows workflow → Plugin validates output
+
+---
+
+## File Structure
+
+```
+~/.config/opencode/agents/
+├── product-design-partner.md              [~200 lines - Core Agent]
+├── product-design-partner.md.backup-*     [881 lines - Original Backup]
+└── modules/
+    ├── INDEX.md                           [~100 lines - This File]
+    ├── quality-gates.md                   [~250 lines - Gates 1-5, Brand, Patterns]
+    ├── workflows.md                       [~290 lines - 8 Complete Workflows]
+    ├── standards-and-anti-patterns.md     [~200 lines - Quality + Anti-patterns]
+    └── frameworks-and-artifacts.md        [~150 lines - Frameworks + Templates]
+
+~/.config/opencode/plugins/
+├── product-design.js                      [776 lines - Core Plugin]
+├── design-validator.mjs                   [394 lines - Standalone Validator]
+├── design-migrator.js                     [297 lines - Data Migration]
+└── csv-converter.mjs                      [222 lines - CSV to JSON]
+
+~/.config/opencode/design-data/
+├── references/
+│   ├── ban-list.md                        [284 lines - Forbidden Patterns]
+│   ├── brand-identity.md                  [311 lines - Brand Guidelines]
+│   ├── premium-patterns.md                [326 lines - Architecture Patterns]
+│   ├── designprompts-styles.json          [191 KB - Style Reference Data]
+│   ├── designprompts-colors.json          [91 KB - Color Palettes]
+│   └── designprompts-typography.json      [68 KB - Typography Systems]
+├── projects/[project-name]/
+│   ├── system.md                          [Design System Documentation]
+│   ├── research-plan.md                   [Research Planning]
+│   ├── synthesis-report.md                [Research Synthesis]
+│   ├── handoff.md                         [Developer Handoff Specs]
+│   └── wireframes.md                      [Figma Wireframes]
+├── components/[component-name]/
+│   └── design.md                          [Component Documentation]
+├── tokens/[project-name].json             [Design Tokens Export]
+├── variance-history.json                  [Last 10 Outputs Tracking]
+└── validation-history/*.json              [Gate Validation Logs]
+```
+
+---
+
+## Module Dependencies
+
+### quality-gates.md
+**Used by:**
+- Interface Design Workflow (mandatory - all 5 gates)
+- Design Critique Workflow (references gates 3 & 5)
+- Figma Integration Workflow (validates gates 3 & 5)
+
+**Contains:**
+- Gate 1: Intent Declaration (Who/What/Feel)
+- Gate 2: Domain Exploration (Domain/Color/Signature/Defaults)
+- Gate 3: Validation Tests (Swap/Squint/Signature/Token)
+- Gate 4: Variance Check (Vibe + Layout archetypes)
+- Gate 5: Ban List (10 forbidden patterns)
+- Brand Identity (Inter + Fragment Mono, Purple #7C3AED)
+- Premium Architecture Patterns (Double-Bezel, Button-in-Button, Whisper-Quiet, Custom Motion)
+
+### workflows.md
+**Used by:** All user requests (router determines which workflow)
+
+**Contains:**
+1. User Research Workflow
+2. Design System Workflow
+3. Interface Design Workflow (requires quality-gates.md)
+4. Product Strategy Workflow
+5. Design Critique Workflow
+6. Design Handoff Workflow
+7. Accessibility Audit Workflow
+8. Figma Integration Workflow (context-aware: collaborate vs. plan mode)
+
+### standards-and-anti-patterns.md
+**Used by:** All workflows (referenced for quality checks)
+
+**Contains:**
+- 6 Quality Standards: Evidence-based, Systematic, Craft-focused, Accessible, Documented, Performant
+- 7 Anti-pattern Categories: Research, Design System, Interface Design, Product Strategy, Critique, Accessibility, UX Copy
+
+### frameworks-and-artifacts.md
+**Used by:**
+- Research Workflow (research methods, analysis frameworks)
+- Strategy Workflow (brainstorming techniques)
+- All workflows (output artifact templates)
+
+**Contains:**
+- 5 Decision Framework Categories: Research Methods, Analysis, Brainstorming, Design Principles, Critique
+- 5 Output Artifact Templates: System Documentation, Research Plan, Synthesis Report, Component Docs, Handoff Spec
+
+---
+
+## Plugin Integration Points
+
+### product-design.js (776 lines)
+**Integration:** Hook-based, no file dependencies
+
+**Functionality:**
+- `tui.prompt.append`: Injects context-aware guidance based on 180+ trigger terms across 13 domains
+- `tui.before-response`: Validates all 5 gates before output (blocks if gates fail)
+- `experimental.session.compacting`: Preserves design context during compression
+
+**Key Features:**
+- Variance tracking (6 vibes × 6 layouts = 36 combinations, prevents repetition in last 2 outputs)
+- Design intent detection (matches user message to workflows)
+- Ban list enforcement (scans for 10 forbidden patterns)
+- Brand font validation (flags non-Inter/Fragment Mono)
+- DesignPrompts.dev integration (loads style reference data)
+- Figma URL detection (activates collaboration mode)
+
+**Data Files:**
+- Reads: `design-data/variance-history.json`
+- Reads: `design-data/references/designprompts-styles.json`
+- Writes: `design-data/variance-history.json`
+
+### design-validator.mjs (394 lines)
+**Integration:** Standalone script, callable from agent/plugin/CLI
+
+**Functionality:**
+- Validates all 5 gates independently
+- Returns structured results: `{ passed: boolean, gates: [...], timestamp }`
+- Can be invoked manually for design artifact validation
+
+**Data Files:**
+- Reads: `design-data/variance-history.json`
+- Writes: `design-data/validation-history/*.json`
+
+### design-migrator.js (297 lines)
+**Integration:** One-time migration script
+
+**Functionality:**
+- Migrates legacy `design-system/MASTER.md` → `design-data/projects/*/system.md`
+- Migrates `.interface-design/references/` → new structure
+- Creates `.migrated` marker to prevent re-runs
+
+### csv-converter.mjs (222 lines)
+**Integration:** One-time conversion script
+
+**Functionality:**
+- Converts DesignPrompts.dev CSV files to JSON
+- `styles.csv` → `designprompts-styles.json`
+- `colors.csv` → `designprompts-colors.json`
+- `typography.csv` → `designprompts-typography.json`
+
+---
+
+## Quick Navigation
+
+| Need | Module | Section |
+|------|--------|---------|
+| **Intent declaration rules** | quality-gates.md | Gate 1 |
+| **Domain exploration** | quality-gates.md | Gate 2 |
+| **Validation tests** | quality-gates.md | Gate 3 |
+| **Variance check** | quality-gates.md | Gate 4 |
+| **Ban list** | quality-gates.md | Gate 5 |
+| **Brand fonts/colors** | quality-gates.md | Brand Identity |
+| **Premium patterns** | quality-gates.md | Architecture Patterns |
+| **Research workflow** | workflows.md | Section 1 |
+| **Design system workflow** | workflows.md | Section 2 |
+| **Interface design workflow** | workflows.md | Section 3 |
+| **Strategy workflow** | workflows.md | Section 4 |
+| **Critique workflow** | workflows.md | Section 5 |
+| **Handoff workflow** | workflows.md | Section 6 |
+| **Accessibility workflow** | workflows.md | Section 7 |
+| **Figma workflow** | workflows.md | Section 8 |
+| **Quality standards** | standards-and-anti-patterns.md | Quality Standards |
+| **Anti-patterns list** | standards-and-anti-patterns.md | Anti-Patterns |
+| **Research methods** | frameworks-and-artifacts.md | Research Methods |
+| **Analysis frameworks** | frameworks-and-artifacts.md | Analysis Frameworks |
+| **Brainstorming techniques** | frameworks-and-artifacts.md | Brainstorming |
+| **Output templates** | frameworks-and-artifacts.md | Output Artifacts |
+
+---
+
+## Loading Sequence Example
+
+**User Request:** "I need to design a dashboard for support managers"
+
+**Agent Flow:**
+1. **Main agent loads** (200 lines)
+2. **Detects workflow:** Interface Design
+3. **Loads modules:**
+   - `quality-gates.md` (gates 1-5 + brand + patterns)
+   - `workflows.md` → Interface Design Workflow
+4. **Follows workflow:**
+   - Step 1: Gate 1 - Frame Intent (Who/What/Feel)
+   - Step 2: Gate 2 - Domain Exploration
+   - Step 3: Gate 4 - Variance Check (consults plugin)
+   - Step 4: Establish Foundations (premium patterns)
+   - Step 5: Gate 5 - Ban List Check
+   - Step 6: Gate 3 - Validation Tests
+   - Step 7: Document System
+5. **Plugin validates:**
+   - `product-design.js` runs `tui.before-response` hook
+   - Checks all gates dynamically via pattern matching
+   - Blocks output if any gate fails
+   - Adds to variance history if passes
+6. **Output delivered** (if all gates pass)
+
+---
+
+## Version History
+
+- **2026-05-27**: Modular restructure - split 881-line agent into 6 files (1 core + 5 modules)
+- **2026-05-27**: Original system - single 881-line agent file with 4 plugins
+
+---
+
+*This document is the complete system map for the Product Design Partner agent. For daily workflow usage, start with the main agent file (`product-design-partner.md`) which will route you to relevant modules.*
