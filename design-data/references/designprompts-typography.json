@@ -262,7 +262,7 @@
     "googleFontsUrl": "https://fonts.google.com/share?selection.family=Inter:wght@300;400;500;600;700;800|Fragment+Mono:wght@400",
     "cssImport": "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fragment+Mono:wght@400&display=swap');",
     "tailwindConfig": "fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['Fragment Mono', 'monospace'] }",
-    "notes": "BRAND: Inter for all UI. Fragment Mono for data/labels. Purple #7C3AED primary."
+    "notes": "BRAND: Inter for all UI. Fragment Mono for data/labels. Brand plum #501E60, violet #7C3AED accent."
   },
   {
     "id": "14",

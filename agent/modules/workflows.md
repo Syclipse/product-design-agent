@@ -1,6 +1,6 @@
 # Design Workflows
 
-Complete workflow specifications for all 8 design capabilities.
+Complete workflow specifications for all 14 design capabilities.
 
 ---
 
@@ -263,6 +263,148 @@ https://www.figma.com/file/[fileKey]/[fileName]
    - Save to `.config/opencode/design-data/tokens/[project-name].json`
 
 **Reference**: Load `quality-gates.md` for complete interface design workflow
+
+---
+
+## 9. AI Mentor Workflow
+
+**When**: User has an idea and wants to reach a product concept — "mentor me", "help me think through this", "is this a good idea", "what should I build"
+
+**Steps**:
+1. **Frame the problem**: Restate the idea as 5–10 How-Might-We questions (the idea is a hypothesis, not the answer)
+2. **Find the job (JTBD)**: "When [situation], I want to [motivation], so I can [outcome]"
+3. **Surface the riskiest assumption**: What must be true? Rank by impact × uncertainty
+4. **Diverge**: Generate 5+ genuinely distinct concept directions
+5. **Converge**: Score by impact × feasibility × desirability
+6. **Write the concept brief**: Job, person-in-context, problem + evidence, the concept, riskiest assumption + test, success signal, explicit out-of-scope
+
+**Key Standards**:
+- Mentor by asking, not answering — surface assumptions before converging
+- Problem before solution; no one-idea "brainstorm"
+- Every concept needs a riskiest-assumption test and an explicit "not now"
+
+**Reference**: `design-data/references/mentorship-frameworks.md`
+**Also load**: `frameworks-and-artifacts.md` (brainstorming techniques)
+**Output**: Save to `design-data/projects/[project-name]/concept.md`
+
+---
+
+## 10. UX Flows Workflow
+
+**When**: User journeys, user/task flows, information architecture, sitemaps — "map the flow", "product structure"
+
+**Steps**:
+1. **Identify the primary job + entry points**
+2. **Choose artifact**: task flow (one path), user flow (all paths), or journey map (end-to-end experience)
+3. **Map the happy path**, then add error and edge branches (empty / first-run / offline / permission-denied)
+4. **Define IA**: sitemap (depth ≤ 3), navigation model, domain-language labels
+5. **Journey map** (if experience-level): stages → actions → thoughts → emotions → opportunities; plot the emotion curve
+6. **Validate**: token test on nav labels; flag dead ends with no recovery
+
+**Key Standards**:
+- Happy path first, but never ship without error/edge branches
+- Labels in the user's domain language, not internal jargon
+- Avoid deep nesting (>3) and modal-first flows
+- Mark moments of truth and the lowest emotional dip (highest leverage)
+
+**Reference**: `design-data/references/ux-flow-patterns.md`
+**Tools**: figma-generate-diagram skill (Mermaid → FigJam)
+**Output**: Save to `design-data/projects/[project-name]/flows.md`
+
+---
+
+## 11. UX Audit Workflow
+
+**When**: "UX audit", "usability review", "heuristic evaluation" — a combined usability + accessibility check
+
+**Steps**:
+1. **Scope & method**: what's reviewed; heuristic walkthrough + WCAG 2.1 AA pass
+2. **Usability**: evaluate against Nielsen's 10 heuristics
+3. **Accessibility**: WCAG AA checklist — measure contrast, keyboard, focus order, semantics, names/roles, forms, targets, motion
+4. **Classify severity**: Critical / Major / Minor
+5. **Prioritize**: frequency × severity → top 3–5
+6. **Report**: per finding — location, heuristic/criterion, evidence, concrete fix
+
+**Key Standards**:
+- Calculate contrast — never estimate
+- Every finding has a severity and a concrete fix; name the element and the heuristic
+- Note what works, not only what's broken; keep feedback stage-appropriate
+
+**Reference**: `design-data/references/ux-heuristics.md`
+**Also reference**: `quality-gates.md` (Gates 3 & 5) and Accessibility Audit Workflow (§7)
+**Output**: Save to `design-data/projects/[project-name]/ux-audit.md`
+
+---
+
+## 12. Design Converter Workflow
+
+**When**: A sketch, wireframe, or screenshot is provided — "turn this into UI", "convert this design", image attached
+
+**STRICT ENFORCEMENT ACTIVE**: Reverse-engineering an image does NOT skip the gates.
+
+**Steps**:
+1. **Observe** the image precisely (regions, repetition, alignment, density, evident hierarchy)
+2. **[Gate 1] Infer intent** (Who/What/Feel) — ask one question if genuinely ambiguous
+3. **[Gate 2] Infer domain** — derive color world + signature from the domain, not the screenshot's arbitrary colors
+4. **Extract structure** → layout grid + regions + component list
+5. **Map to tokens** (spacing 4/8pt, type roles, semantic domain-named colors, radius/elevation)
+6. **Complete states** the static image can't show (all 8)
+7. **[Gates 3 & 5] Validation tests + ban list** before emitting code
+8. **Emit** semantic, accessible markup + token sheet + an explicit list of assumptions
+
+**Key Standards**:
+- Don't copy the screenshot's arbitrary palette as "the design"
+- Improve banned patterns; don't pixel-match them
+- Tokens, not hardcoded values; always list assumptions
+
+**Reference**: `design-data/references/design-converter-guide.md`
+**Required Modules**: `quality-gates.md` (all 5 gates)
+**Output**: Save to `design-data/projects/[project-name]/converted.md`
+
+---
+
+## 13. Figma Export Workflow (Write Direction)
+
+**When**: "export to Figma", "push this to Figma", "build this in Figma", create designs/components in a Figma file. Complements §8 Figma Integration, which reads FROM Figma.
+
+**Steps**:
+1. **Confirm Figma MCP is connected** (and a target file/page exists or should be created)
+2. **Prepare the source**: a gates-passing design (from Interface Design / Design Converter) or design-system tokens
+3. **Load the Figma skill FIRST**: `figma:figma-generate-design` (a page/view) or `figma:figma-generate-library` (a design system) — MANDATORY before any use_figma / generate_figma_design call
+4. **Map tokens → Figma**: color/text/spacing styles or variables (OKLCH → hex); brand fonts Inter + Fragment Mono; two-tone plum/violet
+5. **Assemble** section-by-section using design-system components/variables, not hardcoded values
+6. **Verify** against Gates 3 & 5 in the generated file; report the file URL
+
+**Key Standards**:
+- Always load the relevant `figma-*` skill before calling Figma write tools
+- Use variables/styles, not hardcoded values; preserve brand fonts + two-tone color
+- Re-run validation tests on the exported result
+
+**Tools**: Figma MCP (`generate_figma_design`, `use_figma`, `create_new_file`); skills `figma:figma-generate-design`, `figma:figma-generate-library`
+**Output**: Figma file URL + token mapping → `design-data/tokens/[project-name].json`
+
+---
+
+## 14. Portfolio Builder Workflow
+
+**When**: "case study", "portfolio", "write up this project", "show this work"
+
+**Steps**:
+1. **Gather artifacts** from `design-data/projects/[project-name]/` (research, system, handoff, flows)
+2. **Structure (CRP-PDSI)**: Context · Role · Problem · Process · Decisions · Solution · Impact
+3. **Frame pivotal decisions (STAR-D)**: situation → task → action → result → rationale
+4. **Establish impact**: relative/directional metrics + mechanism, or qualitative evidence — never invented
+5. **Before/after**: show the prior state, its problem, and the change
+6. **Assemble** the narrative; lead with problem + decisions, not screenshots
+
+**Key Standards**:
+- Show judgment and trade-offs, not a screenshot gallery
+- Honest role attribution (you vs. team); no invented metrics
+- Include the messy middle and what you'd do next
+
+**Reference**: `design-data/references/portfolio-frameworks.md`
+**Also reference**: `standards-and-anti-patterns.md` (Evidence-Based standard)
+**Output**: Save to `design-data/projects/[project-name]/case-study.md`
 
 ---
 

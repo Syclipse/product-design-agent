@@ -176,10 +176,10 @@ Proceeding with your override, but recommend reconsidering."
   - Weights: 400 (regular), 500 (medium)
   - Use for: timestamps, IDs, API responses, terminal output
 
-**Primary Brand Color:**
-- **Purple #7C3AED** (primary accent)
-- OKLCH: `oklch(58.6% 0.238 286.7)`
-- Use for: primary CTAs, active states, brand moments
+**Brand Colors (two-tone):**
+- **Deep Plum #501E60** — primary brand. OKLCH `oklch(34.1% 0.119 317)`. Use for: brand identity, brand moments, primary surfaces/headers.
+- **Violet #7C3AED** — interactive accent. OKLCH `oklch(54.1% 0.247 293)`. Use for: primary CTAs, active states, focus indicators, links.
+- Reserve one accent; don't dilute focus.
 
 **Enforcement**: Plugin flags non-brand fonts (Roboto, Arial, etc.) and requires justification.
 
@@ -284,6 +284,6 @@ Surface jumps by 3-5% lightness (never harsh):
 ## See Also
 
 - **Ban List Details**: `design-data/references/ban-list.md` (284 lines - complete rationale)
-- **Brand Guidelines**: `design-data/references/brand-identity.md` (311 lines - full guidelines)
+- **Brand Guidelines**: `design-data/references/brand-identity.md` (336 lines - full guidelines)
 - **Premium Patterns**: `design-data/references/premium-patterns.md` (326 lines - advanced patterns)
 - **Anti-Patterns**: `standards-and-anti-patterns.md` (interface design anti-patterns)

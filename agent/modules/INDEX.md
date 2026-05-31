@@ -17,17 +17,16 @@ The Product Design Partner agent is a modular design system with strict quality 
 
 ```
 ~/.config/opencode/agents/
-├── product-design-partner.md              [~200 lines - Core Agent]
-├── product-design-partner.md.backup-*     [881 lines - Original Backup]
+├── product-design-partner.md              [~240 lines - Core Agent / Router]
 └── modules/
-    ├── INDEX.md                           [~100 lines - This File]
-    ├── quality-gates.md                   [~250 lines - Gates 1-5, Brand, Patterns]
-    ├── workflows.md                       [~290 lines - 8 Complete Workflows]
-    ├── standards-and-anti-patterns.md     [~200 lines - Quality + Anti-patterns]
-    └── frameworks-and-artifacts.md        [~150 lines - Frameworks + Templates]
+    ├── INDEX.md                           [~240 lines - This File]
+    ├── quality-gates.md                   [~290 lines - Gates 1-5, Brand, Patterns]
+    ├── workflows.md                       [~420 lines - 14 Complete Workflows]
+    ├── standards-and-anti-patterns.md     [~135 lines - Quality + Anti-patterns]
+    └── frameworks-and-artifacts.md        [~215 lines - Frameworks + Templates]
 
 ~/.config/opencode/plugins/
-├── product-design.js                      [776 lines - Core Plugin]
+├── product-design.js                      [856 lines - Core Plugin]
 ├── design-validator.mjs                   [394 lines - Standalone Validator]
 ├── design-migrator.js                     [297 lines - Data Migration]
 └── csv-converter.mjs                      [222 lines - CSV to JSON]
@@ -35,8 +34,13 @@ The Product Design Partner agent is a modular design system with strict quality 
 ~/.config/opencode/design-data/
 ├── references/
 │   ├── ban-list.md                        [284 lines - Forbidden Patterns]
-│   ├── brand-identity.md                  [311 lines - Brand Guidelines]
+│   ├── brand-identity.md                  [336 lines - Brand Guidelines, two-tone color]
 │   ├── premium-patterns.md                [326 lines - Architecture Patterns]
+│   ├── mentorship-frameworks.md           [AI Mentor - idea → concept]
+│   ├── ux-flow-patterns.md                [UX Flows - journeys, IA]
+│   ├── ux-heuristics.md                   [UX Audit - Nielsen + WCAG]
+│   ├── design-converter-guide.md          [Design Converter - image → UI]
+│   ├── portfolio-frameworks.md            [Portfolio - case studies]
 │   ├── designprompts-styles.json          [191 KB - Style Reference Data]
 │   ├── designprompts-colors.json          [91 KB - Color Palettes]
 │   └── designprompts-typography.json      [68 KB - Typography Systems]
@@ -55,6 +59,17 @@ The Product Design Partner agent is a modular design system with strict quality 
 
 ---
 
+## Distribution Artifacts (repo)
+
+Beyond the installed agent/plugin/data, the repository ships interface and packaging files:
+
+- **`commands/*.md`** (12) — Claude Code slash commands (`/mentor`, `/ux-flows`, `/ux-audit`, `/design-converter`, `/figma-export`, `/portfolio`, `/research`, `/design-system`, `/interface`, `/critique`, `/handoff`, `/strategy`)
+- **`opencode/command/*.md`** (12) — the same commands in OpenCode format (`agent: product-design-partner`)
+- **`prompts/goal-mode.md`** — portable, self-contained ≤4000-char system prompt
+- **`agents/product-design-partner.md`** — Claude Code subagent definition
+- **`.claude-plugin/plugin.json`** — Claude Code plugin manifest
+- **`hooks/`** — `hooks.json` + `inject-design-context.mjs` (UserPromptSubmit intent nudge)
+
 ## Module Dependencies
 
 ### quality-gates.md
@@ -69,7 +84,7 @@ The Product Design Partner agent is a modular design system with strict quality 
 - Gate 3: Validation Tests (Swap/Squint/Signature/Token)
 - Gate 4: Variance Check (Vibe + Layout archetypes)
 - Gate 5: Ban List (10 forbidden patterns)
-- Brand Identity (Inter + Fragment Mono, Purple #7C3AED)
+- Brand Identity (Inter + Fragment Mono; plum #501E60 brand + violet #7C3AED accent)
 - Premium Architecture Patterns (Double-Bezel, Button-in-Button, Whisper-Quiet, Custom Motion)
 
 ### workflows.md
@@ -84,6 +99,12 @@ The Product Design Partner agent is a modular design system with strict quality 
 6. Design Handoff Workflow
 7. Accessibility Audit Workflow
 8. Figma Integration Workflow (context-aware: collaborate vs. plan mode)
+9. AI Mentor Workflow (idea → product concept)
+10. UX Flows Workflow (journeys, task flows, IA)
+11. UX Audit Workflow (usability + WCAG)
+12. Design Converter Workflow (sketch/screenshot → UI; all 5 gates)
+13. Figma Export Workflow (write direction via Figma MCP)
+14. Portfolio Builder Workflow (case studies)
 
 ### standards-and-anti-patterns.md
 **Used by:** All workflows (referenced for quality checks)
@@ -106,11 +127,11 @@ The Product Design Partner agent is a modular design system with strict quality 
 
 ## Plugin Integration Points
 
-### product-design.js (776 lines)
+### product-design.js (856 lines)
 **Integration:** Hook-based, no file dependencies
 
 **Functionality:**
-- `tui.prompt.append`: Injects context-aware guidance based on 180+ trigger terms across 13 domains
+- `tui.prompt.append`: Injects context-aware guidance based on 220+ trigger terms across 19 domains
 - `tui.before-response`: Validates all 5 gates before output (blocks if gates fail)
 - `experimental.session.compacting`: Preserves design context during compression
 
@@ -177,6 +198,12 @@ The Product Design Partner agent is a modular design system with strict quality 
 | **Handoff workflow** | workflows.md | Section 6 |
 | **Accessibility workflow** | workflows.md | Section 7 |
 | **Figma workflow** | workflows.md | Section 8 |
+| **AI Mentor workflow** | workflows.md | Section 9 |
+| **UX Flows workflow** | workflows.md | Section 10 |
+| **UX Audit workflow** | workflows.md | Section 11 |
+| **Design Converter workflow** | workflows.md | Section 12 |
+| **Figma Export workflow** | workflows.md | Section 13 |
+| **Portfolio Builder workflow** | workflows.md | Section 14 |
 | **Quality standards** | standards-and-anti-patterns.md | Quality Standards |
 | **Anti-patterns list** | standards-and-anti-patterns.md | Anti-Patterns |
 | **Research methods** | frameworks-and-artifacts.md | Research Methods |
@@ -215,6 +242,7 @@ The Product Design Partner agent is a modular design system with strict quality 
 
 ## Version History
 
+- **2026-05-31**: Added 6 capabilities (AI Mentor, UX Flows, UX Audit, Design Converter, Figma Export, Portfolio Builder), 5 reference files, slash commands (Claude Code + OpenCode), `.claude-plugin/` packaging, portable goal-mode prompt, and two-tone brand (plum #501E60 / violet #7C3AED)
 - **2026-05-27**: Modular restructure - split 881-line agent into 6 files (1 core + 5 modules)
 - **2026-05-27**: Original system - single 881-line agent file with 4 plugins
 

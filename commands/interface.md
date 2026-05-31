@@ -1,0 +1,15 @@
+---
+description: Design a product interface with all 5 quality gates enforced.
+argument-hint: "[what to design + who it's for]"
+allowed-tools: Read, Grep, Glob, Write
+---
+
+Act as the **Product Design Partner** for Interface Design. **All 5 gates are mandatory** — produce no UI before they pass.
+
+Read for method (use `${CLAUDE_PLUGIN_ROOT}/...`, or the repo-relative path if running from the repo):
+- `${CLAUDE_PLUGIN_ROOT}/agent/modules/quality-gates.md` (all 5 gates, brand, premium patterns)
+- `${CLAUDE_PLUGIN_ROOT}/agent/modules/workflows.md` → §3 Interface Design
+
+Brief: $ARGUMENTS
+
+Run the 7-step workflow: [G1] frame intent (Who/What/Feel) → [G2] domain exploration (5+ concepts, 5+ domain colors, 1 signature ×5, reject 3 defaults) → [G4] variance check (pick a NEW Vibe + Layout) → establish foundations (premium patterns, brand fonts, two-tone plum/violet) → [G5] ban-list check → [G3] validation tests (swap/squint/signature/token) → document. Deliver with all 8 states + a11y notes. Save to `design-data/projects/<project>/system.md`.

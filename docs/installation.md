@@ -39,11 +39,13 @@ cd product-design--agent
 The script will:
 1. Detect your environment (OpenCode, Claude, or ask for custom path)
 2. Create necessary directories
-3. Copy all files to appropriate locations
+3. Copy all files (agent, plugins, slash commands, goal-mode prompt, reference data)
 4. Validate the installation
 5. Display usage instructions
 
 ### Manual Installation
+
+> The automated installer also copies the slash commands (`commands/` for Claude Code, `opencode/command/` for OpenCode) and the portable prompt (`prompts/`). For manual installs, copy those into your tool's command/prompt directories as well.
 
 #### OpenCode
 
@@ -257,6 +259,6 @@ rm -r ~/Library/Application\ Support/Claude/design-data/
 
 After installation:
 1. Read the [Architecture Overview](architecture.md) to understand how the system works
-2. Review [Workflow Reference](workflows.md) for usage patterns
+2. Review the [Workflow Reference](../agent/modules/workflows.md) for usage patterns
 3. Try the [Examples](../examples/) to see the agent in action
 4. Check [Contributing Guide](contributing.md) if you want to extend functionality
