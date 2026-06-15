@@ -1,6 +1,8 @@
 # macOS Installation Guide
 
-Complete install instructions for **macOS Sonoma and later** (Intel and Apple Silicon). For the full onboarding path, read **[Designer handoff guide](handoff-guide.md)** first.
+Complete install instructions for **macOS Sonoma and later** (Intel and Apple Silicon).
+
+**Not comfortable with Terminal?** Send this page to IT or a technical teammate. You only need the **One-command install** section run once; daily design work happens in Cursor chat. Start here for plain language: **[Quick start for designers](designer-quick-start.md)** · **[Handoff guide](handoff-guide.md)**
 
 ## Prerequisites
 
@@ -25,7 +27,7 @@ node --version   # should be v18+
 ### 3. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_ORG/product-design-agent.git
+git clone https://github.com/Syclipse/product-design-agent.git
 cd product-design-agent
 chmod +x install.sh scripts/test.sh
 ```

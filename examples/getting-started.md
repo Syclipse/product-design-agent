@@ -1,6 +1,16 @@
 # Getting Started with Product Design Partner
 
-Quick examples to get you started using the agent effectively.
+Sample prompts and the kind of responses you should expect.
+
+**Designers:** start with [Quick start for designers](../docs/designer-quick-start.md) if you want setup steps without code-heavy examples. Use `/interface` in Cursor instead of `@product-design-partner` when slash commands are installed.
+
+## Try this first (Cursor)
+
+```
+/interface A settings page where finance admins reconcile payouts before month-end. They need confidence nothing was missed.
+```
+
+Expect: Who/What/Feel questions → domain ideas from finance (not generic SaaS) → **2–3 layout directions** → your pick → refined spec.
 
 ## Example 1: Simple Button Component
 
@@ -316,18 +326,19 @@ Before considering design done:
 - [ ] Different from last 2 designs (variance)
 - [ ] No banned patterns from ban-list.md
 
-### 5. Use the Validator
-```bash
-# After creating design
-node plugins/design-validator.mjs my-design.md
+### 5. Optional quality check (before dev handoff)
 
-# Check for violations
-cat design-data/validation-history/latest.json | jq '.gates'
+If a teammate can run Terminal, they can verify a saved spec includes all five gates:
+
+```bash
+node plugins/design-validator.mjs design-data/projects/my-app/handoff.md
 ```
+
+Exit code `0` = good. Plain-English gate guide: [quality-gates-for-designers.md](../docs/quality-gates-for-designers.md).
 
 ## Next Steps
 
+- [Quick start for designers](../docs/designer-quick-start.md)
+- [Workflows by task](../docs/workflows-by-task.md)
 - [Designer handoff guide](../docs/handoff-guide.md)
-- [Workflow reference](../docs/workflows.md)
 - [Documentation index](../docs/README.md)
-- [Architecture overview](../docs/architecture.md)

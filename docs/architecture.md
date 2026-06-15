@@ -1,6 +1,6 @@
 # Architecture Overview
 
-How the Product Design Partner fits together. For day-to-day use, designers should start with [handoff-guide.md](handoff-guide.md) and [workflows.md](workflows.md).
+How the Product Design Partner fits together. For day-to-day use, designers should start with [designer-quick-start.md](designer-quick-start.md), [handoff-guide.md](handoff-guide.md), and [workflows-by-task.md](workflows-by-task.md).
 
 **Version:** 1.3.1 · **Workflows:** 17 · **Slash commands:** 16 · **Subagents:** 4 · **Platforms:** OpenCode, Claude Code, Cursor, Codex
 
@@ -500,7 +500,6 @@ grep -r "pass.*false" design-data/validation-history/
 
 ## Next Steps
 
-- [Designer handoff guide](handoff-guide.md)
-- [Workflow reference](workflows.md)
-- [Contributing](contributing.md)
-- [Examples](../examples/README.md)
+**Designers:** [Quick start](designer-quick-start.md) · [Workflows by task](workflows-by-task.md) · [Handoff guide](handoff-guide.md)
+
+**Maintainers:** [Workflow reference](workflows.md) · [Contributing](contributing.md) · [Examples](../examples/README.md)
