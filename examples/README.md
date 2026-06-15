@@ -1,21 +1,21 @@
 # Examples
 
-Runnable examples and sample prompts. Copy the request text into your AI tool (with the Product Design Partner rule or agent loaded).
+Sample prompts you can paste into Cursor or Claude Code (with the design partner installed).
 
-| File | Demonstrates |
-|------|--------------|
-| [getting-started.md](getting-started.md) | Five common scenarios: component, design-system audit, a11y, critique, UX copy |
-| [dashboard-design.md](dashboard-design.md) | Full gate-compliant dashboard artifact (validator fixture) — must exit 0 when run through `design-validator.mjs` |
+| File | Best for |
+|------|----------|
+| [getting-started.md](getting-started.md) | Everyday scenarios — buttons, audits, critique, copy |
+| [dashboard-design.md](dashboard-design.md) | Full dashboard walkthrough (technical reference) |
 
-## Try a prompt
+**New to the tool?** [Quick start for designers](../docs/designer-quick-start.md)
 
-**Cursor / Claude Code:**
+## Try a prompt (Cursor)
 
 ```
 /interface Monitoring dashboard for DevOps engineers during incident response — calm urgency, not panic
 ```
 
-**Validate an output file:**
+## Optional: validate a file (IT / maintainers)
 
 ```bash
 node plugins/design-validator.mjs examples/dashboard-design.md

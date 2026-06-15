@@ -1,40 +1,56 @@
 # Your design projects
 
-This folder holds **your generated work** — research plans, prototypes, handoff specs, case studies, and diagrams. It is intentionally empty in the repository; each designer or team fills it in over time.
+This folder is **your workspace**—research notes, prototypes, handoff specs, and case studies. The empty repo is intentional; you fill it in as you work.
 
-## Folder convention
+Nothing here is uploaded to git by default (good for client confidentiality).
 
-Create one directory per product or initiative:
+## One folder per product
+
+Pick a short name (e.g. `billing-dashboard`, `onboarding-v2`) and stick with it:
 
 ```
-design-data/projects/
-└── billing-dashboard/
-    ├── concept.md           # Mentor / strategy output
-    ├── research-plan.md     # §1 User Research
-    ├── flows.md             # §10 UX Flows
-    ├── diagrams/
-    │   └── checkout-flow.mmd
-    ├── variants.md          # Variant comparison (A/B/C)
-    ├── prototypes/
-    │   ├── prototype-a.html
-    │   ├── prototype-b.html
-    │   └── prototype-c.html
-    ├── system.md            # Design system / tokens for this product
-    ├── annotations.md       # §17 callouts
-    ├── ux-rationale.md      # Decision records
-    └── handoff.md           # §6 developer spec
+design-data/projects/billing-dashboard/
 ```
 
-You do not need every file on day one. Follow the artifact chain in `design-data/references/product-design-process.md`.
+Tell the agent: *"Save under design-data/projects/billing-dashboard/"*
 
-## Git
+## Files you'll collect over time
 
-Everything under `design-data/projects/` (except this README) is **gitignored** by default so personal client work and drafts stay off the remote. To version a specific project with your team, remove that project's path from `.gitignore` or use a separate private repo for deliverables.
+You don't need all of these on day one—add files as the project matures.
 
-## Validate before handoff to engineering
+| File or folder | Created when you… |
+|----------------|-------------------|
+| `concept.md` | Shape an idea (`/mentor`, `/strategy`) |
+| `research-plan.md` | Plan research (`/research`) |
+| `flows.md` | Map journeys (`/ux-flows`) |
+| `diagrams/` | Draw flows (`/diagram`) |
+| `variants.md` | Compare layout options |
+| `prototypes/*.html` | Build clickables (`/prototype`) — open in any browser |
+| `system.md` | Lock design direction (`/interface`) |
+| `annotations.md` | Spec interactions (`/annotate`) |
+| `handoff.md` | Hand to engineering (`/handoff`) |
+| `case-study.md` | Portfolio piece (`/portfolio`) |
+
+## Sharing with teammates
+
+**Default:** Files stay on your laptop only.
+
+To share with the team:
+
+- Export from Cursor chat, copy files to Notion/Drive/Figma, or
+- Ask your lead about versioning a specific project folder in a private repo
+
+## Optional quality check before dev handoff
+
+If someone on your team runs Terminal, they can verify a spec file passes all five gates:
 
 ```bash
 node plugins/design-validator.mjs design-data/projects/billing-dashboard/handoff.md
 ```
 
-Exit code `0` means all five quality gates passed.
+"No news is good news" — exit code `0` means the doc includes everything the gates require. See [quality-gates-for-designers.md](../../docs/quality-gates-for-designers.md).
+
+## What to read next
+
+- [Workflows by task](../../docs/workflows-by-task.md) — which command creates which file  
+- [Product design process](../references/product-design-process.md) — phase order

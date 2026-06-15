@@ -2,7 +2,8 @@
 
 A systematic, evidence-based product design agent for AI coding assistants — **Claude Code, Cursor, Codex, and OpenCode** — with strict quality enforcement gates.
 
-**New here?** → [Designer handoff guide](docs/handoff-guide.md) · [Documentation index](docs/README.md) · [Install](docs/installation.md)
+**Designers:** → [Quick start](docs/designer-quick-start.md) · [Handoff guide](docs/handoff-guide.md) · [Which command?](docs/workflows-by-task.md)  
+**Install / maintainers:** → [Documentation index](docs/README.md) · [Install](docs/installation.md)
 
 ## Features
 
@@ -261,11 +262,15 @@ node plugins/design-validator.mjs design-output.md
 
 | Doc | Audience |
 |-----|----------|
-| **[Designer handoff guide](docs/handoff-guide.md)** | Design teams receiving this product |
+| **[Quick start for designers](docs/designer-quick-start.md)** | First day; minimal jargon |
+| **[Handoff guide](docs/handoff-guide.md)** | Team onboarding + rollout |
+| **[Workflows by task](docs/workflows-by-task.md)** | Which `/command` when |
+| **[Quality gates (plain English)](docs/quality-gates-for-designers.md)** | Why the agent asks Who/What/Feel |
+| **[Troubleshooting](docs/troubleshooting-for-designers.md)** | Common fixes |
 | **[Documentation index](docs/README.md)** | Full doc map |
 | [Installation](docs/installation.md) | All platforms |
 | [macOS installation](docs/installation-macos.md) | Mac setup |
-| [Workflow reference](docs/workflows.md) | 17 workflows + commands |
+| [Workflow reference](docs/workflows.md) | Technical § index |
 | [Architecture](docs/architecture.md) | Maintainers |
 | [Contributing](docs/contributing.md) | Extending the agent |
 | [Changelog](CHANGELOG.md) | Version history |

@@ -1,83 +1,121 @@
 # Designer handoff guide
 
-This document is for **designers and design leads** receiving the Product Design Partner as a team tool. No engineering background required beyond installing Node.js once.
+For **designers and design leads** receiving this as a team tool. You don't need an engineering background—just Cursor (or another supported AI app) and about 30 minutes for first-time setup.
+
+**Brand new?** Start with the even shorter [Quick start for designers](designer-quick-start.md).
 
 ## What you're getting
 
 A **structured AI design partner** that:
 
-- Runs inside **Cursor**, **Claude Code**, **Codex**, or **OpenCode** (pick what your org uses)
-- Follows **17 workflows** — research through handoff, prototypes, diagrams, annotations
-- Enforces **5 quality gates** so outputs stay specific, accessible, and non-generic
-- Delivers **2–3 distinct UI directions** for new screens (Variant Protocol) instead of one AI-default layout
+- Lives in **Cursor**, **Claude Code**, **Codex**, or **OpenCode** (use whatever your org standardizes on)
+- Covers the design lifecycle—research, flows, screens, prototypes, critique, handoff, portfolio
+- Pushes back on generic AI UI ("clean, modern, for users")
+- Shows **2–3 real options** for new screens before you commit to one direction
 
-The repo is the **source of truth**. Installation copies a bundle to your home directory; your project work stays in `design-data/projects/`.
+Your team's client work stays in a folder on your laptop (`design-data/projects/`). The shared repo is the **tool**, not your deliverables.
+
+## Glossary (tech words we use)
+
+| Term | Plain meaning |
+|------|----------------|
+| **Slash command** | Shortcut you type in chat, e.g. `/interface` |
+| **Quality gates** | Five checks so output stays specific and accessible — [explained simply](quality-gates-for-designers.md) |
+| **Variant Protocol** | Always 2–3 different layout directions for new UI; you pick the winner |
+| **Rule file** | One file copied into your project so Cursor knows to act as the design partner |
+| **Install script** | One terminal command that copies commands into your app (often run once by IT) |
+| **Subagent / focused agent** | Optional: runs a big task in a separate chat so your main thread stays clean |
+
+---
 
 ## 30-minute onboarding
 
-### 1. Install (10 min)
+### 1. Install (10 min) — you or IT
 
-**macOS:**
+**Easiest path (Mac + Cursor):**
 
-```bash
-brew install node
-git clone https://github.com/Syclipse/product-design-agent.git product-design-agent && cd product-design-agent
-chmod +x install.sh scripts/test.sh
-./install.sh --target cursor --yes    # or claude | codex | opencode
-./scripts/test.sh
-```
-
-See [installation-macos.md](installation-macos.md) or [installation.md](installation.md) for other platforms.
-
-### 2. Attach the agent to your project (5 min)
-
-**Cursor (recommended for most design teams):**
+1. Install [Node.js LTS](https://nodejs.org/) if you don't have it (needed for an optional quality checker).
+2. Download the agent repo (or get a zip from your design ops team).
+3. In Terminal, from that folder:
 
 ```bash
-mkdir -p /path/to/your-project/.cursor/rules
-cp cursor/rules/product-design-partner.mdc /path/to/your-project/.cursor/rules/
+chmod +x install.sh
+./install.sh --target cursor --yes
 ```
 
-Open the project in Cursor. Type `/` to see commands like `/interface`, `/prototype`, `/research`.
+4. Success message = slash commands like `/interface` are now in Cursor.
 
-**Clone-only workflow:** open this repo in Cursor or Codex — root `AGENTS.md` applies agent identity without global install. For slash commands, still run `./install.sh --target cursor --yes` or copy `cursor/commands/` into the project.
+**Other platforms:** [installation-macos.md](installation-macos.md) · [installation.md](installation.md)
 
-**Claude Code:** add this repo as a plugin (`/plugin`) or run `./install.sh --target claude --yes`. See [.claude-plugin/README.md](../.claude-plugin/README.md) for the component map.
+**Verify:** In Cursor, type `/` — you should see design commands.
 
-### 3. Run your first workflow (10 min)
+### 2. Attach to your project (5 min)
 
-In Cursor or Claude Code:
+The install puts commands on your **computer**. You also attach **identity** to each **project** you design in:
+
+**Cursor (recommended):**
+
+1. Open the folder where you do design work (client project, product repo, etc.).
+2. Create `.cursor/rules/` inside that folder if it doesn't exist.
+3. Copy this file from the agent download into it:
+
+   `cursor/rules/product-design-partner.mdc` → `your-project/.cursor/rules/product-design-partner.mdc`
+
+4. Open a new chat in that project.
+
+**Without global install:** You can open the agent repo itself in Cursor and read [AGENTS.md](../AGENTS.md)—but slash commands still need the install step once.
+
+**Claude Code:** Add the repo as a plugin (`/plugin`) or run `./install.sh --target claude --yes`. Details: [.claude-plugin/README.md](../.claude-plugin/README.md).
+
+### 3. First workflow (10 min)
+
+In Cursor chat:
 
 ```
 /interface A settings page where finance admins reconcile Stripe payouts before month-end close. They need confidence nothing is missed.
 ```
 
-Expect:
+**You should see:**
 
-1. **Intent** — Who / What / Feel (specific, not "users" or "clean")
-2. **Domain exploration** — concepts and colors from finance/reconciliation, not generic SaaS purple
-3. **2–3 variants** — comparison table, recommendation, then your choice
-4. **Refinement** of the winner through validation tests
+1. **Who / What / Feel** — specific person, task, emotion (not "users" or "clean")
+2. **Domain** — ideas and colors from finance/reconciliation, not template SaaS
+3. **2–3 layout directions** — comparison table, recommendation, **your choice**
+4. **Refinement** of the winner — states, accessibility, tokens
+
+**If it skips variants, say:** *"Show three distinct directions first, then stop for my pick."*
+
+More examples: [getting-started.md](../examples/getting-started.md) · [workflows-by-task.md](workflows-by-task.md)
 
 ### 4. Save your work (5 min)
 
-Ask the agent to save artifacts under:
+Tell the agent:
 
-```
-design-data/projects/<your-project-name>/
-```
+> Save artifacts under design-data/projects/billing-dashboard/
 
-See [design-data/projects/README.md](../design-data/projects/README.md) for the recommended file layout.
+Use one folder per product. You don't need every file type on day one—add them as the project grows.
 
-## Slash commands cheat sheet
+| File | When you create it |
+|------|-------------------|
+| `concept.md` | Early mentor/strategy |
+| `research-plan.md` | After `/research` |
+| `flows.md` | After `/ux-flows` |
+| `variants.md` + `prototypes/` | After `/prototype` |
+| `system.md` | After `/interface` |
+| `handoff.md` | Before dev (`/handoff`) |
 
-| When you need… | Command |
-|----------------|---------|
+Full layout: [design-data/projects/README.md](../design-data/projects/README.md)
+
+---
+
+## Daily cheat sheet
+
+| I want to… | Command |
+|------------|---------|
 | Early ideation | `/brainstorm` or `/mentor` |
 | Research planning | `/research` |
-| User flows / IA | `/ux-flows` or `/diagram` |
-| New screen (gated) | `/interface` |
-| Clickable options | `/prototype` |
+| Flows / IA / diagrams | `/ux-flows` or `/diagram` |
+| **New screen** | `/interface` |
+| **Clickable options** | `/prototype` |
 | Sketch → spec | `/design-converter` |
 | Design system audit | `/design-system` |
 | Review a mockup | `/critique` or `/ux-audit` |
@@ -86,86 +124,87 @@ See [design-data/projects/README.md](../design-data/projects/README.md) for the 
 | Figma | `/figma-export` |
 | Case study | `/portfolio` |
 
-Full index: [workflows.md](workflows.md).
+Expanded table with examples: [workflows-by-task.md](workflows-by-task.md)
 
-## Heavy workflows (subagents)
+## Big tasks (optional focused agents)
 
-For large UI output, prefer isolated context so the main chat stays readable:
+Long UI work can run in a **separate agent** so your main chat doesn't get huge:
 
-| Task | Slash command | Subagent (Claude / Cursor) |
-|------|---------------|----------------------------|
-| New screen design | `/interface` | `interface-design` |
-| Clickable variants | `/prototype` | `prototype-variants` |
-| Push to Figma | `/figma-export` | `figma-export` |
+| Task | Command | Agent name (Cursor / Claude) |
+|------|---------|------------------------------|
+| New screen | `/interface` | `interface-design` |
+| HTML prototypes | `/prototype` | `prototype-variants` |
+| Figma export | `/figma-export` | `figma-export` |
 
-Gate rules are **not** duplicated in subagents — they always read `agent/modules/quality-gates.md` and the matching section of `workflows.md`. On Codex/OpenCode, use the slash command in a focused session instead.
+The slash command alone is enough if you don't use separate agents. Rules always live in the shared modules—not copied into each agent file.
 
-## Quality gates (non-negotiable for UI)
+## Quality gates (summary)
 
-Every interface, prototype, or converted screen must document:
+Five checks before UI is "done." Full plain-English guide: [quality-gates-for-designers.md](quality-gates-for-designers.md).
 
-1. **Who / What / Feel** — a specific person, task, and emotional outcome
-2. **Domain** — 5+ domain concepts, 5+ domain-native colors, one **signature** element used 5+ times
-3. **Validation tests** — swap, squint, signature, token (each with pass/fail + evidence)
-4. **Variance** — a Vibe + Layout pairing not repeated from your last two outputs
-5. **Ban list** — no glassmorphism-by-default, hero-metric trios, gradient text, etc.
+1. **Who / What / Feel** — specific human, task, emotion  
+2. **Domain** — product-world concepts, colors, repeating signature element  
+3. **Validation tests** — swap, squint, signature, token  
+4. **Variance** — not the same vibe+layout as your last two big screens  
+5. **Ban list** — no glass-everywhere, gradient text, hero-metric clichés  
 
-**Validate locally:**
+**Optional file check before engineering handoff** (ask IT to run once and show you):
 
 ```bash
 node plugins/design-validator.mjs design-data/projects/my-app/handoff.md
 ```
 
-On OpenCode, the plugin blocks bad output automatically. On Cursor/Codex/Claude, the rule and your review are the enforcement — run the validator before sending specs to engineering.
+Exit code `0` = all gates documented correctly in that file.
 
-## What stays out of git
+## Privacy: what stays off git
 
-Your deliverables are **private by default**:
+Your deliverables are **private by default** on your machine:
 
-| Ignored | Why |
-|---------|-----|
-| `design-data/projects/*` | Client work, drafts, prototypes |
-| `design-data/validation-history/` | Local gate run logs |
-| `design-data/variance-history.json` | Your repetition tracker |
-| `.config/` | Accidental local OpenCode install in repo |
+| Folder | What's in it |
+|--------|----------------|
+| `design-data/projects/` | Your specs, prototypes, client work |
+| `design-data/validation-history/` | Local check logs (optional) |
 
-The shared repo keeps agent logic, references, and commands only. See [.gitignore](../.gitignore).
+The shared repo only contains the tool and reference playbooks—not your client files.
 
-## Customizing for your brand
+## Customizing for client brands
 
-The agent ships a **demo brand** (Inter, Fragment Mono, plum `#501E60`, violet `#7C3AED`) in `design-data/references/brand-identity.md`.
+The agent ships a **demo brand** (Inter, Fragment Mono, plum + violet) for examples. For client work:
 
-For client work:
-
-1. Keep the **gate structure** — change domain tokens and signature, not the process
-2. Add client tokens under `design-data/projects/<client>/system.md`
-3. Do **not** delete ban-list entries; they prevent generic AI UI
-
-For a team-wide rebrand of the agent itself, edit `brand-identity.md` and the brand lines in `cursor/rules/product-design-partner.mdc` / `codex/AGENTS.md`, then re-run `./scripts/test.sh`.
+1. Keep the **process** (gates, variants)—change colors and signature to match the client.
+2. Save client tokens in `design-data/projects/<client>/system.md`.
+3. Don't remove ban-list rules—they prevent generic AI UI.
 
 ## Team rollout checklist
 
-- [ ] Each designer ran `./install.sh --target <platform> --yes`
-- [ ] Each project repo has `.cursor/rules/product-design-partner.mdc` (Cursor) or equivalent
-- [ ] Team agreed on `design-data/projects/<naming-convention>/`
-- [ ] Figma MCP configured if using `/figma-export` ([installation.md](installation.md#figma-mcp-optional))
-- [ ] Design lead ran `./scripts/test.sh` on main before pinning a release tag
-- [ ] Optional: pin git tag `v1.3.0` for stable handoff
+**Design lead**
+
+- [ ] Pin a release tag (e.g. `v1.3.1`) and share [designer-quick-start.md](designer-quick-start.md)
+- [ ] Confirm Figma MCP if using `/figma-export` ([installation.md](installation.md#figma-mcp-optional))
+
+**Each designer**
+
+- [ ] Ran `./install.sh --target cursor --yes` (or IT did)
+- [ ] Copied `product-design-partner.mdc` into each active project
+- [ ] Typed `/` in Cursor and sees design commands
+- [ ] Ran one `/interface` prompt successfully
+- [ ] Knows where to save: `design-data/projects/<name>/`
 
 ## Getting help
 
 | Question | Where |
 |----------|-------|
-| How do I install? | [installation.md](installation.md) |
-| Which workflow for my task? | [product-design-process.md](../design-data/references/product-design-process.md) |
-| Why was my output rejected? | [quality-gates.md](../agent/modules/quality-gates.md), [ban-list.md](../design-data/references/ban-list.md) |
-| How do I extend the agent? | [contributing.md](contributing.md) |
-| Something broke after update | [CHANGELOG.md](../CHANGELOG.md), re-run `./install.sh` |
+| First day | [designer-quick-start.md](designer-quick-start.md) |
+| Which command? | [workflows-by-task.md](workflows-by-task.md) |
+| Something broke | [troubleshooting-for-designers.md](troubleshooting-for-designers.md) |
+| Why was output rejected? | [quality-gates-for-designers.md](quality-gates-for-designers.md) |
+| Install details | [installation-macos.md](installation-macos.md) |
+| Process phases | [product-design-process.md](../design-data/references/product-design-process.md) |
 
-## Maintainer handoff (giving this to another team)
+## For whoever maintains the tool
 
-1. Tag a release: `git tag v1.3.0 && git push origin v1.3.0`
-2. Share this file + [docs/README.md](README.md)
-3. Confirm `.gitignore` excludes `design-data/projects/` (no client data in transfer)
-4. Include Node 18+ in team prerequisites
-5. Point design leads to `scripts/test.sh` for smoke verification
+1. Tag releases and share this guide + [docs/README.md](README.md)
+2. Confirm `.gitignore` excludes `design-data/projects/` (no client data in git)
+3. Run `./scripts/test.sh` before pinning a version for the team
+
+Technical docs: [architecture.md](architecture.md) · [contributing.md](contributing.md)

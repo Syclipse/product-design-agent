@@ -1,11 +1,13 @@
 # Dashboard Design Example
 
-This example demonstrates the complete Interface Design workflow for creating an API monitoring dashboard.
+End-to-end **Interface Design** example for an API monitoring dashboard. Useful if you want to see every gate section filled in; most designers can skip to the prompt below.
 
-## Initial Request
+**Start here instead:** [Quick start for designers](../docs/designer-quick-start.md)
+
+## Initial Request (use `/interface` in Cursor)
 
 ```
-@product-design-partner Design a dashboard for monitoring API health and investigating errors
+/interface Dashboard for DevOps engineers monitoring API health during incidents — calm urgency, not panic
 ```
 
 ## Workflow Execution

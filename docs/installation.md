@@ -2,7 +2,7 @@
 
 Install the Product Design Partner for Claude Code, Cursor, Codex, OpenCode, or a custom path.
 
-**Designers:** start with the **[Designer handoff guide](handoff-guide.md)** — it covers onboarding, slash commands, and what stays out of git.  
+**Designers:** start with **[Quick start for designers](designer-quick-start.md)** or the **[Handoff guide](handoff-guide.md)** — onboarding, slash commands, and what stays off git.  
 **Documentation index:** [docs/README.md](README.md)
 
 ## Prerequisites

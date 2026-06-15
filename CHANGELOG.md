@@ -12,6 +12,7 @@ All notable changes to the Product Design Partner agent. Versioning follows [Sem
 ### Changed
 - `install.sh` installs all subagents for Claude Code and Cursor; bundle includes `agents/`
 - Docs: platform-adaptation, handoff guide, architecture, INDEX, AGENTS.md, Codex AGENTS.md
+- Designer-facing docs: `designer-quick-start.md`, `workflows-by-task.md`, `quality-gates-for-designers.md`, `troubleshooting-for-designers.md`; rewritten handoff guide and doc index for non-technical readers
 
 ## [1.3.0] - 2026-06-15
 

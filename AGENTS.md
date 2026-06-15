@@ -35,4 +35,4 @@ node plugins/design-validator.mjs <artifact.md>
 ./install.sh --target cursor --yes   # or claude | codex | opencode
 ```
 
-See `docs/handoff-guide.md` for designer onboarding.
+See [Quick start for designers](docs/designer-quick-start.md) or [handoff guide](docs/handoff-guide.md) for designer onboarding.
