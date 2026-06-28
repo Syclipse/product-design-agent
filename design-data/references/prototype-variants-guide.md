@@ -123,7 +123,7 @@ Each variant component owns its own state toggle for default/loading/error/empty
 
 A prototype you haven't run is a claim, not a result. The `prototype-variants` subagent **is** the isolated context — verify **inline** with your own tools; do not try to spawn a further sub-agent.
 
-Resolve the script path in this order: Claude plugin → `${CLAUDE_PLUGIN_ROOT}/scripts/dev-server.mjs`; bundle install → `~/.product-design-partner/scripts/dev-server.mjs`; repo checkout → `scripts/dev-server.mjs`.
+Resolve the script path in this order: Claude plugin → `${CLAUDE_PLUGIN_ROOT}/scripts/dev-server.mjs`; bundle install → `~/.product-design-partner/scripts/dev-server.mjs`; OpenCode → `~/.config/opencode/scripts/dev-server.mjs`; repo checkout → `scripts/dev-server.mjs`.
 
 1. **Start the project's dev server** with the detection script — never assume a port, never hand-pick one that might collide:
    ```bash

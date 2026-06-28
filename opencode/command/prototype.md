@@ -33,10 +33,10 @@ Steps:
    - [ ] Tokens are CSS variables with **domain names** (`--sla-critical`, not `--red-500`)
 6. Run Gates 5 + 3 on each variant independently — a variant that fails its own validation is rebuilt, not offered.
 7. **Verify in the browser** (on Claude Code the spawned `prototype-variants` subagent does this inline — no further nesting):
-   - Start the dev server: `node scripts/dev-server.mjs start --dir <app>` (project-scoped detection; **never assume a port**). If `${CLAUDE_PLUGIN_ROOT}` is unset, use `~/.product-design-partner/scripts/dev-server.mjs` or the repo's `scripts/dev-server.mjs`.
+   - Start the dev server: `node ~/.config/opencode/scripts/dev-server.mjs start --dir <app>` (project-scoped detection; **never assume a port**). If `${CLAUDE_PLUGIN_ROOT}` is unset, use `~/.product-design-partner/scripts/dev-server.mjs` or the repo's `scripts/dev-server.mjs`.
    - Open the printed URL with the `playwright-cli` skill, click through every tab and state, exercise the real interactions.
    - Screenshot each variant to `<app>/screenshots/`.
-   - Fix anything that fails to render or misbehaves, then stop the server: `node scripts/dev-server.mjs stop --dir <app>`.
+   - Fix anything that fails to render or misbehaves, then stop the server: `node ~/.config/opencode/scripts/dev-server.mjs stop --dir <app>`.
 
 **Definition of Done — verification (check every box before you present):**
 - [ ] dev-server JSON returned `"running": true` with a URL (paste it)
@@ -48,7 +48,7 @@ If any box is unchecked, label the prototype **UNVERIFIED**, name the step that 
 
 **If verification can't run** (no Bash, `node`/`npm` missing, no `playwright-cli` skill, or the dev server won't start): do not fabricate a result. Present the variants labeled **UNVERIFIED — built, not yet run**, quote the dev-server script's own `error`/`note` text, and give the user both ways to run it:
 - `cd <app> && npm install && npm run dev`
-- `node scripts/dev-server.mjs start --dir <app>`
+- `node ~/.config/opencode/scripts/dev-server.mjs start --dir <app>`
 
 Then continue to the comparison and STOP as normal.
 

@@ -47,9 +47,10 @@ The dev-server script and the gate validator are **executables run with `node`**
 
 1. **Claude plugin** → `${CLAUDE_PLUGIN_ROOT}/scripts/dev-server.mjs`, `${CLAUDE_PLUGIN_ROOT}/plugins/design-validator.mjs`
 2. **Bundle install** (Cursor / Codex / Claude personal) → `~/.product-design-partner/scripts/...`, `~/.product-design-partner/plugins/...`
-3. **Repo checkout** → `scripts/...`, `plugins/...`
+3. **OpenCode** → `~/.config/opencode/scripts/...`, `~/.config/opencode/plugins/...`
+4. **Repo checkout** → `scripts/...`, `plugins/...`
 
-`install.sh` copies `scripts/` and `plugins/` into the bundle, so both exist after a non-repo install. **Never** run a bare `node scripts/dev-server.mjs` and assume it resolves from the user's project cwd — it won't under a plugin/bundle install. (Known gap: OpenCode commands strip the `${CLAUDE_PLUGIN_ROOT}` token to a bare path; until a resolver lands, OpenCode users run the dev server from the repo or pass an explicit path.)
+`install.sh` copies `scripts/` and `plugins/` into the bundle and into the OpenCode config dir, so both exist after a non-repo install. **Never** run a bare `node scripts/dev-server.mjs` and assume it resolves from the user's project cwd — it won't under a plugin/bundle install. The sync rewrites the `${CLAUDE_PLUGIN_ROOT}` token to the right absolute path per platform (OpenCode commands now use `~/.config/opencode/...`), so the generated commands are correct everywhere.
 
 ## Per-platform optimizations
 

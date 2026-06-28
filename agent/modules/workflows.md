@@ -483,7 +483,7 @@ https://www.figma.com/file/[fileKey]/[fileName]
 
 **Reference**: `design-data/references/prototype-variants-guide.md`
 **Required Modules**: `quality-gates.md` (all 5 gates), `context-management.md` (sub-agent isolation, output hygiene)
-**Dev server**: the project-scoped detect/start script. Resolve its path in this order: Claude plugin → `${CLAUDE_PLUGIN_ROOT}/scripts/dev-server.mjs`; bundle install → `~/.product-design-partner/scripts/dev-server.mjs`; repo checkout → `scripts/dev-server.mjs` (see workflow §0 note and README)
+**Dev server**: the project-scoped detect/start script. Resolve its path in this order: Claude plugin → `${CLAUDE_PLUGIN_ROOT}/scripts/dev-server.mjs`; bundle install → `~/.product-design-partner/scripts/dev-server.mjs`; OpenCode → `~/.config/opencode/scripts/dev-server.mjs`; repo checkout → `scripts/dev-server.mjs` (see workflow §0 note and README)
 **Output**: a runnable React app at `design-data/projects/[project-name]/prototype/` (or inside the repo when working in one) + `variants.md` (comparison + decision) + `screenshots/` from browser verification
 
 ---
